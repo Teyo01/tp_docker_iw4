@@ -2,7 +2,12 @@ version: '3.8'
 services:
   #PHP Service
   php:
-    build: php
+    build:
+      context: .
+      dockerfile: php/Dockerfile
+      args:
+        user: user
+        uid: 1000
   #Nginx Service
   nginx:
     build: nginx
