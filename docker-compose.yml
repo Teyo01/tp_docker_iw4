@@ -1,6 +1,5 @@
 version: '3.8'
 services:
-  #PHP Service
   php:
     depends_on:
       - mysql
@@ -8,7 +7,15 @@ services:
       context: .
       target: builder
     restart: unless-stopped
-  #Nginx Service
+
+  php2:
+    depends_on:
+      - mysql
+    build:
+      context: .
+      target: builder
+    restart: unless-stopped
+
   nginx:
     depends_on:
       - php
@@ -18,7 +25,17 @@ services:
     restart: unless-stopped
     ports:
       - "8080:80"
-  #MySQL Service
+
+  nginx2:
+    depends_on:
+      - php
+    build:
+      context: .
+      target: server
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+
   mysql:
     expose:
       - 3306
@@ -32,7 +49,8 @@ services:
     volumes:
       - ./mysql:/var/lib/mysql/
 
-#Volumes
-volumes:
-  lbdata:
-    driver: local
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8082:8080
