@@ -31,7 +31,10 @@ RUN npm install
 RUN npm run build
 
 
-
 FROM nginx AS server
 COPY nginx.conf /etc/nginx/nginx.conf
+COPY --from=builder /usr/share/nginx /usr/share/nginx
+
+FROM nginx AS server2
+COPY nginx2.conf /etc/nginx/nginx.conf
 COPY --from=builder /usr/share/nginx /usr/share/nginx

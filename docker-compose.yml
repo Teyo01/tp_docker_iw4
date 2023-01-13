@@ -28,17 +28,15 @@ services:
 
   nginx2:
     depends_on:
-      - php
+      - php2
     build:
       context: .
-      target: server
+      target: server2
     restart: unless-stopped
     ports:
       - "8081:80"
 
   mysql:
-    expose:
-      - 3306
     image: mysql:5.7.22
     restart: unless-stopped
     environment:
